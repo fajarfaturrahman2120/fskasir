@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Toko;
 
 class AuthController extends Controller
 {
@@ -18,19 +19,22 @@ class AuthController extends Controller
     public function Proseslogin(Request $request)
     {
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('dashboard'); // cek juga ejaannya
+            return redirect()->route('dashboard');
         }
 
-        return redirect()->route('login')
-            ->with('error', 'Email atau Password salah');
+        return back()->with('error', 'Email atau Password salah');
     }
-    public function shoeRegister()
+
+    public function showRegister()
     {
         return view('auth.register');
     }
+
+    // 🔴 INI YANG PENTING
     public function dashboard()
     {
-        return view('dashboard');
+        $toko = Toko::all(); // ambil semua toko
+        return view('dashboard', compact('toko'));
     }
 
     public function register(Request $request)
@@ -43,9 +47,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            return back()->withErrors($validator)->withInput();
         }
 
         User::create([
@@ -58,5 +60,4 @@ class AuthController extends Controller
         return redirect()->route('login')
             ->with('success', 'Registrasi berhasil, silakan login.');
     }
-
 }

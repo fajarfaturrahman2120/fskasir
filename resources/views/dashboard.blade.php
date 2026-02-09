@@ -3,25 +3,59 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <h3 class="fw-bold">Toko {{ Auth::user()->name }}</h3>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Owner</a></li>
-        <li class="breadcrumb-item">Toko</li>
+<a href="{{'toko.create'}}" class="btn btn-success"> Tambah Toko</a>
+<div class="container mt-4">
+    <div class="row g-4">
 
-    </ol>
-    <a href="{{ route('toko.create') }}" class="btn btn-primary mb-3">Tambah Toko</a>
+        @foreach ($toko as $item)
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body">
 
-    <div class="card border-0 shadow-sm p-4 mt-4" style="max-width: 250px;">
-        <div class="d-flex align-items-center">
-            <div class="p-3 bg-light rounded me-3 text-primary">
-                <i class="bi bi-shop fs-1"></i>
-            </div>
-            <div>
-                <h5 class="mb-1 fw-bold">{{ Auth::user()->name }}</h5>
-                <a href="{{ route('menu.index') }}" class="btn btn-sm btn-outline-primary">
-                    Lihat Toko
-                </a>
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="fw-bold mb-0">Toko {{ $item->name }}</h6>
+                            <small class="text-muted">{{ $item->name }}</small>
+                        </div>
+
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">⋮</button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('toko.edit', $item->id_toko) }}">
+                                        Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('toko.destroy', $item->id_toko) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle">
+                            <i class="bi bi-shop fs-4 text-primary"></i>
+                        </div>
+
+                        <a href="{{ route('menu.index') }}"
+                           class="ms-3 text-primary fw-semibold text-decoration-none">
+                            Lihat Toko
+                        </a>
+                    </div>
+
+                </div>
             </div>
         </div>
+        @endforeach
+
     </div>
+</div>
+
 @endsection

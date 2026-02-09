@@ -22,9 +22,9 @@
     <label for="">Password</label>
     <input type="password" name="password" class="form-control" placeholder="Password Anda" required><br>
     <label for="">Alamat Toko</label>
-    <input type="text" name="alamat_toko" class="form-control" placeholder="Alamat" required><br>
+    <input type="text" name="alamat" class="form-control" placeholder="Alamat" required><br>
     <label for="">Username</label>
-    <input type="text" name="Username" class="form-control" placeholder="Username anda" required><br>
+    <input type="text" name="username" class="form-control" placeholder="Username anda" required><br>
     <button type="submit" class="btn btn-success">Sumbit</button>
     <button type="reset" class="btn btn-danger">Reset</button>
     </form>

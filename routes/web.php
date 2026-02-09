@@ -6,11 +6,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TokoController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/auth', function () {
     return redirect('/login');
+
 });
 
 
@@ -30,6 +32,11 @@ Route::post('/logout', function () {
 })->name('logout');
 //menu Kasir
 Route::get('/menu',[MenuController::class, 'index'])->name('menu.index');
-//toko
+
+Route::get('/toko',[TokoController::class, 'index'])->name('toko.index');
 Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
 Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
+Route::get('/toko/{id_toko}', [TokoController::class, 'show'])->name('toko.show');
+Route::get('/toko/{id_toko}/edit', [TokoController::class, 'edit'])->name('toko.edit');
+Route::put('/toko/{id_toko}', [TokoController::class, 'update'])->name('toko.update');
+Route::delete('/toko/{id_toko}', [TokoController::class, 'destroy'])->name('toko.destroy');
