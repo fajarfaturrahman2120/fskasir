@@ -32,7 +32,8 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 //menu Kasir
-Route::get('/menu/{id_toko}',[MenuController::class, 'index'])->name('menu.index');
+Route::get('/menu/{id_toko}', [MenuController::class, 'index'])->name('menu.index');
+
 
 Route::get('/toko',[TokoController::class, 'index'])->name('toko.index');
 Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');

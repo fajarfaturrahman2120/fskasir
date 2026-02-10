@@ -37,7 +37,7 @@ class TokoController extends Controller
             'username' => $request->username,
         ]);
 
-        return redirect()->route('toko.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Toko berhasil ditambahkan!');
     }
 

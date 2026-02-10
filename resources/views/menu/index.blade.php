@@ -258,7 +258,7 @@
                 </div>
             </a>
 
-            <a href="#" class="text-decoration-none">
+            <a href="{{route('produk.index')}}" class="text-decoration-none">
                 <div class="card h-100 text-center shadow-sm border-0 py-4">
                     <div class="card-body">
                         <div class="mb-3 text-primary">
