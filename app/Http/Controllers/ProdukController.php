@@ -23,15 +23,15 @@ public function create()
 public function store(Request $request)
 {
     $request->validate([
-        'nama_produk' => 'required',
-        'id_kategori' => 'required',
-        'harga_pokok' => 'required',
-        'harga_jual' => 'required',
-        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        'nama_produk'   => 'required',
+        'id_kategori'   => 'required',
+        'harga_pokok'   => 'required|numeric',
+        'harga_jual'    => 'required|numeric',
+        'gambar'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
     ]);
 
     // upload gambar
-    $gambar = null;
+    $gambar = 'default.png';
     if ($request->hasFile('gambar')) {
         $gambar = $request->file('gambar')->store('produk', 'public');
     }
@@ -39,37 +39,39 @@ public function store(Request $request)
     Produk::create([
         'id_produk_server' => 0,
         'id_toko' => 1, // default toko
-        'kategori' => $request->kategori,
+
+        // 🔥 FIX UTAMA
+        'id_kategori' => $request->id_kategori,
 
         'nama_produk' => $request->nama_produk,
         'harga_pokok' => $request->harga_pokok,
-        'harga_jual' => $request->harga_jual,
+        'harga_jual'  => $request->harga_jual,
 
         'harga_diskon' => $request->harga_diskon ?? 0,
-        'is_diskon' => $request->is_diskon ?? 'tidak',
+        'is_diskon'    => $request->is_diskon ?? 'tidak',
 
         'harga_grosir' => $request->harga_grosir ?? 0,
-        'min_grosir' => $request->min_grosir ?? 0,
+        'min_grosir'   => $request->min_grosir ?? 0,
 
         'kode_produk' => $request->kode_produk ?? '-',
 
-        'pengaturan_stok' => $request->pengaturan_stok ?? 'tanpa stok',
-        'pengaturan_harga_stok' => $request->pengaturan_harga_stok ?? 'manual',
+        'pengaturan_stok'       => $request->pengaturan_stok ?? 'tanpa stok',
+        'pengaturan_harga_stok'=> $request->pengaturan_harga_stok ?? 'manual',
 
-        'jumlah_stok' => $request->jumlah_stok ?? 0,   // 🔥 WAJIB
-        'limit_stok' => $request->limit_stok ?? 0,     // 🔥 WAJIB
+        'jumlah_stok' => 0,
+        'limit_stok'  => 0,
 
         'harga_total_limit_stok' => 0,
-        'harga_satu_beli_stok' => 0,
+        'harga_satu_beli_stok'   => 0,
 
-        'pengaturan_harga_jual' => $request->pengaturan_harga_jual ?? 'manual',
+        'pengaturan_harga_jual' => $request->pengaturan_harga_jual ?? 'jual',
 
         'satuan' => $request->satuan ?? '-',
-        'berat' => $request->berat ?? 0,
+        'berat'  => $request->berat ?? 0,
         'lokasi' => $request->lokasi ?? '-',
 
         'deskripsi_produk' => $request->deskripsi_produk ?? '-',
-        'gambar' => $gambar ?? 'default.png',
+        'gambar' => $gambar,
 
         'serial_number' => '-',
         'dijual' => $request->dijual ?? 'dijual',
@@ -81,6 +83,8 @@ public function store(Request $request)
 
     return redirect()->route('produk.index')
         ->with('success', 'Produk berhasil ditambahkan');
+dd($request->all());
 }
+
 
 }
