@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TokoController;
+use App\Http\Controllers\ProdukController;
 
 
 Route::get('/', function () {
@@ -19,7 +20,7 @@ Route::get('/auth', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'Proseslogin'])->name('login.proses');
 
-Route::get('/register', [AuthController::class, 'shoeRegister'])->name('register');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.proses');
 
 Route::get('/dashboard', [AuthController::class, 'dashboard'])
@@ -31,7 +32,7 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 //menu Kasir
-Route::get('/menu',[MenuController::class, 'index'])->name('menu.index');
+Route::get('/menu/{id_toko}',[MenuController::class, 'index'])->name('menu.index');
 
 Route::get('/toko',[TokoController::class, 'index'])->name('toko.index');
 Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
@@ -40,3 +41,11 @@ Route::get('/toko/{id_toko}', [TokoController::class, 'show'])->name('toko.show'
 Route::get('/toko/{id_toko}/edit', [TokoController::class, 'edit'])->name('toko.edit');
 Route::put('/toko/{id_toko}', [TokoController::class, 'update'])->name('toko.update');
 Route::delete('/toko/{id_toko}', [TokoController::class, 'destroy'])->name('toko.destroy');
+//Produk
+Route::get('/produk',[ProdukController::class, 'index'])->name('produk.index');
+Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');
+Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
+Route::get('/produk/{id_produk}', [ProdukController::class, 'show'])->name('produk.show');
+Route::get('/produk/{id_produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
+Route::put('/produk/{id_produk}', [ProdukController::class, 'update'])->name('produk.update');
+Route::delete('/produk/{id_produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');

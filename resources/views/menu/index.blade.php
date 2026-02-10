@@ -92,11 +92,12 @@
 
     <div class="main-content p-4">
     <div class="container-fluid">
-        <h3 class="fw-bold">Toko {{ Auth::user()->name }}</h3>
+       <h3 class="fw-bold">Toko {{ $toko->name }}</h3>
+
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Owner</a></li>
-                <li class="breadcrumb-item">Toko</li>
+                <li class="breadcrumb-item"  ><a href="{{route('dashboard')}}">Toko</a> </li>
                 <li class="breadcrumb-item active" aria-current="page">Detail</li>
             </ol>
         </nav>
