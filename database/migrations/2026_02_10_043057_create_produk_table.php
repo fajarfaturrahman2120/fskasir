@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_produk');
             $table->integer('id_produk_server');
             $table->integer('id_toko');
-            $table->integer('kategori');
+            $table->integer('id_kategori');
             $table->string('nama_produk');
             $table->string('harga_pokok');
             $table->string('harga_jual');

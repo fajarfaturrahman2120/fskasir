@@ -9,11 +9,11 @@ class Kategori extends Model
 
 
     protected $table = 'kategori';
-    protected $primaryKey = 'no';
+    protected $primaryKey = 'id_kategori';
 
     protected $fillable = [
         'kategori',
-        'Jenis_kategori',
+        'jenis_transaksi',
 
 
     ];

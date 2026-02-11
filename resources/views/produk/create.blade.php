@@ -18,9 +18,11 @@
                     <label>Kategori *</label>
                     <select name="id_kategori" class="form-control mb-3" required>
                         <option value="">Pilih Kategori</option>
-                        <option value="Makanan">Makanan</option>
-                        <option value="Minuman">Minuman</option>
-
+                        @foreach ($kategori as $k)
+                            <option value="{{ $k->id_kategori }}">
+                                {{ $k->kategori }}
+                            </option>
+                        @endforeach
                     </select>
 
                     <label>Harga Pokok *</label>

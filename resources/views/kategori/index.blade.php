@@ -1,23 +1,74 @@
 @extends('layouts.dashboard')
 @section('title', 'Index kategori')
 @section('content')
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-    </head>
-
-    <body>
-        <div class="card">
-            <div class="card-body">
-                <a href="{{route('')}}"></a>
-            </div>
+<div class="container-fluid py-3">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Data Kategori</h5>
+            <a href="{{ route('kategori.create') }}" class="btn btn-light btn-sm">
+                + Tambah Kategori
+            </a>
         </div>
-    </body>
 
-    </html>
+        <div class="card-body">
+
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            <div class="table-responsive mb-3">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="60">ID</th>
+                            <th>Kategori</th>
+                            <th>Jenis Transaksi</th>
+                            <th width="180">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($kategori as $item)
+                            <tr>
+                                <td>{{ $item->id_kategori}}</td>
+                                <td>{{ $item->kategori }}</td>
+                                <td> {{$item->jenis_transaksi}}</td>
+                                <td>
+                                    <a href="{{ route('kategori.edit', $item->id_kategori) }}" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+
+                                    <form action="{{ route('kategori.destroy', $item->id_kategori) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Yakin mau dihapus?')">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4">Data masih kosong</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tombol kembali -->
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('produk.index') }}" class="btn btn-secondary">
+                    ← Kembali
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @endsection

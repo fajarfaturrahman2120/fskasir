@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kategori', function (Blueprint $table) {
-            $table->id('no');
+            $table->id('id_kategori');
             $table->string('kategori');
-            $table->string('jenis_kategori');
+            $table->string('jenis_transaksi');
             $table->timestamps();
         });
     }

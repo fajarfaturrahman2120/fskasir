@@ -13,36 +13,14 @@ class Produk extends Model
     protected $primaryKey = 'id_produk';
 
     protected $fillable = [
-        'id_produk_server',
-        'id_toko',
-        'kategori',
-        'nama_produk',
-        'harga_pokok',
-        'harga_jual',
-        'harga_diskon',
-        'is_diskon',
-        'harga_grosir',
-        'min_grosir',
-        'kode_produk',
-        'pengaturan_stok',
-        'pengaturan_harga_stok',
-        'jumlah_stok',
-        'limit_stok',
-        'harga_total_limit_stok',
-        'harga_satu_beli_stok',
-        'pengaturan_harga_jual',
-        'satuan',
-        'berat',
-        'lokasi',
-        'deskripsi_produk',
-        'gambar',
-        'serial_number',
-        'dijual',
-        'multi_produk',
-        'varian_harga_jual',
-        'ekstra_produk',
-        'harga_jual_margin',
-    ];
+    'id_produk_server','id_toko','id_kategori','nama_produk',
+    'harga_pokok','harga_jual','harga_diskon','is_diskon',
+    'harga_grosir','min_grosir','dijual','kode_produk',
+    'pengaturan_stok','pengaturan_harga_stok','pengaturan_harga_jual',
+    'satuan','berat','lokasi','deskripsi_produk','gambar',
+    'jumlah_stok','limit_stok','harga_total_limit_stok','harga_satu_beli_stok',
+    'serial_number','multi_produk','varian_harga_jual','ekstra_produk','harga_jual_margin'
+];
 
     public $timestamps = true;
 
