@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TokoController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\KategoriController;
 
 
 Route::get('/', function () {
@@ -50,3 +51,11 @@ Route::get('/produk/{id_produk}', [ProdukController::class, 'show'])->name('prod
 Route::get('/produk/{id_produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
 Route::put('/produk/{id_produk}', [ProdukController::class, 'update'])->name('produk.update');
 Route::delete('/produk/{id_produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+//kategori
+Route::get('/kategori',[KategoriController::class, 'index'])->name('kategori.index');
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+Route::get('/kategori/{id_kategori}', [KategoriController::class, 'show'])->name('kategori.show');
+Route::get('/kategori/{id_kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+Route::put('/kategori/{id_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
+Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');

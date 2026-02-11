@@ -22,11 +22,11 @@ public function create()
 
 public function store(Request $request)
 {
-    dd($request->all()); // 👈 cek dulu isi form
+
 
     $request->validate([
         'nama_produk'   => 'required',
-        'id_kategori'   => 'required',
+        'kategori'   => 'required',
         'harga_pokok'   => 'required|numeric',
         'harga_jual'    => 'required|numeric',
         'gambar'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
@@ -41,7 +41,7 @@ public function store(Request $request)
     Produk::create([
         'id_produk_server' => 0,
         'id_toko' => 1,
-        'id_kategori' => $request->id_kategori,
+        'kategori' => $request->id_kategori,
         'nama_produk' => $request->nama_produk,
         'harga_pokok' => $request->harga_pokok,
         'harga_jual'  => $request->harga_jual,

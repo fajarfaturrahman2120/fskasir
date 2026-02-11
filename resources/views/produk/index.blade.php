@@ -45,7 +45,7 @@
                     <a class="nav-link active bg-purple" href="{{route('produk.create')}}">Tambah</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bg-light text-dark" href="#">Kategori</a>
+                    <a class="nav-link bg-light text-dark" href="{{route('kategori.index')}}">Kategori</a>
                 </li>
             </ul>
 
