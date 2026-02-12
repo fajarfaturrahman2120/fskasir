@@ -49,7 +49,7 @@
                 {{-- KANAN --}}
                 <div class="col-md-6">
                     <label>Kategori</label>
-                    <input type="text" class="form-control bg-light" value="{{ $produk->kategori->kategori  }}"
+                    <input type="text" class="form-control bg-light" value="{{ $produk->kategori->kategori ?? '-' }}"
                         readonly>
 
                     <label class="mt-2">Harga Jual</label>

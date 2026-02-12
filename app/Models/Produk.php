@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Toko;
+use App\Models\Kategori;
 class Produk extends Model
 {
     use HasFactory;
@@ -29,4 +30,10 @@ class Produk extends Model
     {
         return $this->belongsTo(Toko::class, 'id_toko', 'id_toko');
     }
+public function kategori()
+{
+    // Pastikan 'id_kategori' adalah foreign key di tabel produk
+    // dan primary key di tabel kategori adalah 'id_kategori'
+    return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
+}
 }
