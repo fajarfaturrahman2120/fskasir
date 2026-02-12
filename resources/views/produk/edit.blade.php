@@ -13,13 +13,13 @@
 
         <div class="row">
             <div class="col-md-6">
+
                 <label>Nama Produk *</label>
                 <input type="text" name="nama_produk" class="form-control mb-3"
-                       value="{{ $produk->nama_produk }}" required>
+                    value="{{ $produk->nama_produk }}" required>
 
                 <label>Kategori *</label>
                 <select name="id_kategori" class="form-control mb-3" required>
-                    <option value="">Pilih Kategori</option>
                     @foreach ($kategori as $k)
                         <option value="{{ $k->id_kategori }}"
                             {{ $produk->id_kategori == $k->id_kategori ? 'selected' : '' }}>
@@ -30,15 +30,15 @@
 
                 <label>Harga Pokok *</label>
                 <input type="number" name="harga_pokok" class="form-control mb-3"
-                       value="{{ $produk->harga_pokok }}" required>
+                    value="{{ $produk->harga_pokok }}" required>
 
                 <label>Harga Jual *</label>
                 <input type="number" name="harga_jual" class="form-control mb-3"
-                       value="{{ $produk->harga_jual }}" required>
+                    value="{{ $produk->harga_jual }}" required>
 
                 <label>Harga Diskon</label>
                 <input type="number" name="harga_diskon" class="form-control mb-3"
-                       value="{{ $produk->harga_diskon }}">
+                    value="{{ $produk->harga_diskon }}">
 
                 <label>Aktifkan Harga Diskon</label>
                 <select name="is_diskon" class="form-control mb-3">
@@ -48,11 +48,11 @@
 
                 <label>Harga Grosir</label>
                 <input type="number" name="harga_grosir" class="form-control mb-3"
-                       value="{{ $produk->harga_grosir }}">
+                    value="{{ $produk->harga_grosir }}">
 
                 <label>Minimal Beli Grosir</label>
                 <input type="number" name="min_grosir" class="form-control mb-3"
-                       value="{{ $produk->min_grosir }}">
+                    value="{{ $produk->min_grosir }}">
 
                 <label>Dijual</label>
                 <select name="dijual" class="form-control mb-3">
@@ -62,15 +62,26 @@
             </div>
 
             <div class="col-md-6">
+
                 <label>Kode Produk</label>
                 <input type="text" name="kode_produk" class="form-control mb-3"
-                       value="{{ $produk->kode_produk }}">
+                    value="{{ $produk->kode_produk }}">
 
                 <label>Pengaturan Stok *</label>
-                <select name="pengaturan_stok" class="form-control mb-3" required>
-                    <option value="tanpa stok" {{ $produk->pengaturan_stok == 'tanpa stok' ? 'selected' : '' }}>Tanpa Stok</option>
-                    <option value="pakai stok" {{ $produk->pengaturan_stok == 'pakai stok' ? 'selected' : '' }}>Pakai Stok</option>
+                <select name="pengaturan_stok" id="pengaturan_stok" class="form-control mb-3" required>
+                    <option value="tanpa stok" {{ $produk->pengaturan_stok == 'tanpa stok' ? 'selected' : '' }}>
+                        Tanpa Stok
+                    </option>
+                    <option value="pakai stok" {{ $produk->pengaturan_stok == 'pakai stok' ? 'selected' : '' }}>
+                        Pakai Stok
+                    </option>
                 </select>
+
+                <div id="stok-wrapper" style="display:none;">
+                    <label>Jumlah Stok *</label>
+                    <input type="number" name="jumlah_stok" class="form-control mb-3"
+                        value="{{ $produk->jumlah_stok }}">
+                </div>
 
                 <label>Pengaturan Harga Stok</label>
                 <select name="pengaturan_harga_stok" class="form-control mb-3">
@@ -86,26 +97,23 @@
 
                 <label>Satuan</label>
                 <input type="text" name="satuan" class="form-control mb-3"
-                       value="{{ $produk->satuan }}">
+                    value="{{ $produk->satuan }}">
 
                 <label>Berat (gram)</label>
                 <input type="number" name="berat" class="form-control mb-3"
-                       value="{{ $produk->berat }}">
+                    value="{{ $produk->berat }}">
 
                 <label>Lokasi</label>
                 <input type="text" name="lokasi" class="form-control mb-3"
-                       value="{{ $produk->lokasi }}">
+                    value="{{ $produk->lokasi }}">
 
                 <label>Deskripsi Produk</label>
                 <input type="text" name="deskripsi_produk" class="form-control mb-3"
-                       value="{{ $produk->deskripsi_produk }}">
+                    value="{{ $produk->deskripsi_produk }}">
 
                 <label>Gambar Produk</label>
-                <input type="file" name="gambar" class="form-control mb-2">
-
-                @if($produk->gambar)
-                    <img src="{{ asset('storage/'.$produk->gambar) }}" width="120">
-                @endif
+                <input type="file" name="gambar" class="form-control mb-3">
+                <small class="text-muted">Biarkan kosong jika tidak diganti</small>
             </div>
         </div>
 
@@ -114,4 +122,20 @@
 
     </form>
 </div>
+
+{{-- SCRIPT --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const stokSelect = document.getElementById('pengaturan_stok');
+    const stokWrapper = document.getElementById('stok-wrapper');
+
+    function toggleStok() {
+        stokWrapper.style.display = stokSelect.value === 'pakai stok' ? 'block' : 'none';
+    }
+
+    stokSelect.addEventListener('change', toggleStok);
+    toggleStok(); // auto buka saat load
+});
+</script>
+
 @endsection

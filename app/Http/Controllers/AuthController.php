@@ -22,7 +22,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return back()->with('error', 'Email atau Password salah');
+        return back()->with('error', 'email atau Password salah');
     }
 
     public function showRegister()

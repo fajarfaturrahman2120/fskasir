@@ -49,33 +49,45 @@
 
                         {{-- Info --}}
                         <div class="flex-grow-1">
-                            <h6 class="mb-1">{{ $item->nama_produk }}</h6>
+                            <h5 class="mb-1 fw-semibold text-dark">{{ $item->nama_produk }}</h5>
 
-                            <small class="text-muted">
-                                Harga: Rp {{ number_format($item->harga_jual) }}
-                                <del class="text-danger ms-2">
+                            <div class="mb-1">
+                                <span class="fw-bold text-success">
+                                    Rp {{ number_format($item->harga_jual) }}
+                                </span>
+                                <del class="text-muted ms-2">
                                     Rp {{ number_format($item->harga_pokok) }}
                                 </del>
-                            </small>
+                            </div>
 
-                            <p class="mb-1">Stok: {{ $item->jumlah_stok }}</p>
+                            <span class="badge bg-secondary">
+                                Stok: {{ $item->jumlah_stok }}
+                            </span>
                         </div>
 
-                        {{-- Tombol --}}
-                        <div class="btn-group">
-                            {{-- <a href="{{ route('produk.show', $item->id_produk) }}">👁</a> --}}
 
-                            <a href="{{ route('produk.edit', $item->id_produk) }}" class="btn btn-sm btn-warning">
+                        {{-- Tombol --}}
+                        <div class="btn-group gap-1">
+                            <a href="{{ route('produk.show', $item->id_produk) }}" class="btn btn-sm btn-outline-primary"
+                                title="Detail">
+                                👁
+                            </a>
+
+                            <a href="{{ route('produk.edit', $item->id_produk) }}" class="btn btn-sm btn-warning"
+                                title="Edit">
                                 ✏
                             </a>
 
-                            <form action="{{ route('produk.destroy', $item->_produk) }}" method="POST">
+                            <form action="{{ route('produk.destroy', $item->id_produk) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Hapus produk ini?')">🗑</button>
+                                <button class="btn btn-sm btn-danger" title="Hapus"
+                                    onclick="return confirm('Hapus produk ini?')">
+                                    🗑
+                                </button>
                             </form>
                         </div>
+
                     </div>
                 @empty
                     <div class="p-3 text-center text-muted">

@@ -21,7 +21,7 @@
             <form method="POST" action="{{ route('login.proses') }}">
                 @csrf
             <div class=" mb-3">
-            <label for="">EMAIL</label>
+            <label for="">Email</label>
             <input type="email" name="email" class="form-control" placeholder="Email" required><br>
             </div>
             <div class="mb-3">

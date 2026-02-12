@@ -57,10 +57,16 @@
                     <input type="text" name="kode_produk" class="form-control mb-3">
 
                     <label>Pengaturan Stok *</label>
-                    <select name="pengaturan_stok" class="form-control mb-3" required>
+                    <select name="pengaturan_stok" id="pengaturan_stok" class="form-control mb-3" required>
                         <option value="tanpa stok">Tanpa Stok</option>
                         <option value="pakai stok">Pakai Stok</option>
                     </select>
+
+                    <div id="stok-wrapper" style="display:none;">
+                        <label>Jumlah Stok *</label>
+                        <input type="number" name="jumlah_stok" class="form-control mb-3">
+                    </div>
+
 
                     <label>Pengaturan Harga Stok</label>
                     <select name="pengaturan_harga_stok" class="form-control mb-3">
@@ -99,3 +105,17 @@
         </form>
     </div>
 @endsection
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const stokSelect = document.getElementById('pengaturan_stok');
+    const stokWrapper = document.getElementById('stok-wrapper');
+
+    stokSelect.addEventListener('change', function () {
+        if (this.value === 'pakai stok') {
+            stokWrapper.style.display = 'block';
+        } else {
+            stokWrapper.style.display = 'none';
+        }
+    });
+});
+</script>
