@@ -71,7 +71,7 @@ class TokoController extends Controller
             'username' => $request->username,
         ]);
 
-        return redirect()->route('toko.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Data toko berhasil diupdate!');
     }
 
@@ -79,7 +79,9 @@ class TokoController extends Controller
     {
         Toko::destroy($id_toko);
 
-        return redirect()->route('toko.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Toko berhasil dihapus!');
     }
+
+
 }
