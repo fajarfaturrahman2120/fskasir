@@ -42,6 +42,7 @@ public function store(Request $request)
         'harga_pokok' => 'required|numeric',
         'harga_jual'  => 'required|numeric',
         'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'kode_produk' => 'PRD-' . strtoupper(uniqid()),
     ]);
 
     // Upload gambar
