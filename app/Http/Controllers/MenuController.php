@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
+// use App\Models\Menu;
 use App\Models\Produk;
 use App\Models\Toko;   // <- ini yang benar
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
