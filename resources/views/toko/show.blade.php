@@ -36,7 +36,7 @@
         </div>
 
         <div class="text-end mt-3">
-            <a href="{{ route('toko.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Kembali</a>
         </div>
     </div>
 </div>
