@@ -4,14 +4,16 @@
 
 @section('content')
     <div class="container">
-
+        <h4>{{ $toko->name }}</h4>
         <h4 class="mb-4">Tambah Produk</h4>
 
-        <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('produk.store',$toko->id_toko) }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="row">
                 <div class="col-md-6">
+                    <input type="hidden" name="id_toko" value="{{ $toko->id_toko }}">
+
                     <label>Nama Produk *</label>
                     <input type="text" name="nama_produk" class="form-control mb-3" required>
 
@@ -100,7 +102,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Submit</button>
-            <a href="{{ route('produk.index') }}" class="btn btn-secondary mt-3">Cancel</a>
+            <a href="{{ route('produk.index',$toko->id_toko) }}" class="btn btn-secondary mt-3">Cancel</a>
 
         </form>
     </div>

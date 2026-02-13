@@ -6,20 +6,26 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Toko;
 use App\Models\Kategori;
+use App\Http\Controllers\Controller;
 class ProdukController extends Controller
 {
-    public function index()
-    {
-        $toko = Toko::first();   // ambil 1 toko
-        $produk = Produk::all();
-        $kategori = Kategori::all();
 
+   public function index($id_toko)
+    {
+        $toko = Toko::where('id_toko', $id_toko)->firstOrFail();
+        $produk = Produk::where('id_toko', $id_toko)->get();
+
+        // Pastikan 'toko' dikirim ke view
         return view('produk.index', compact('produk', 'toko'));
     }
-    public function create()
+  // Tambahkan parameter $id_toko
+    public function create($id_toko)
     {
-        $kategori = Kategori::all();
-        return view('produk.create', compact('kategori'));
+        // Ambil data toko agar variabel $toko tersedia di Blade
+        $toko = Toko::where('id_toko', $id_toko)->firstOrFail();
+        $kategori = Kategori::where('id_toko', $id_toko)->get();
+
+        return view('produk.create', compact('kategori', 'toko'));
     }
 public function store(Request $request)
 {
@@ -30,6 +36,7 @@ public function store(Request $request)
     }
 
     $request->validate([
+       'id_toko' => 'required',
         'nama_produk' => 'required|string',
         'id_kategori' => 'required|exists:kategori,id_kategori',
         'harga_pokok' => 'required|numeric',
@@ -46,7 +53,7 @@ public function store(Request $request)
     // Insert produk
     Produk::create([
         'id_produk_server' => 0,
-        'id_toko'          => $toko->id_toko, // ✅ pakai variabel $toko
+        'id_toko' => $request->id_toko,
         'id_kategori'      => $request->id_kategori,
         'nama_produk'      => $request->nama_produk,
         'harga_pokok'      => $request->harga_pokok,
@@ -75,8 +82,12 @@ public function store(Request $request)
         'ekstra_produk'    => $request->ekstra_produk ?? null,
         'harga_jual_margin'=> $request->harga_jual_margin ?? 0,
     ]);
+    // dd($request->all());
+      return redirect()->route('produk.index', [
+        'id_toko' => $request->id_toko
+    ])->with('success', 'Data berhasil ditambahkan');
 
-    return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan');
+
 }
 
 
@@ -101,11 +112,17 @@ public function store(Request $request)
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diupdate');
     }
-    public function show($id)
+   public function show($id_toko, $id_produk)
     {
-        $produk = Produk::findOrFail($id);
-        return view('produk.show', compact('produk'));
+        $toko = Toko::where('id_toko', $id_toko)->firstOrFail();
+        $produk = Produk::where('id_produk', $id_produk)
+            ->where('id_toko', $id_toko)
+            ->firstOrFail();
+
+        return view('produk.show', compact('toko', 'produk'));
     }
+
+
 
     // Hapus data
     public function destroy($id)

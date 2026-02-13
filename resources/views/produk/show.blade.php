@@ -85,7 +85,7 @@
             </div>
 
             <div class="mt-4 text-end">
-                <a href="{{ route('produk.index') }}" class="btn btn-secondary">Cancel</a>
+                <a href="{{ route('produk.index',$toko->id_toko) }}" class="btn btn-secondary">Cancel</a>
             </div>
 
         </div>

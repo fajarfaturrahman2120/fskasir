@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Toko;
 use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
@@ -12,6 +12,7 @@ class Kategori extends Model
     protected $primaryKey = 'id_kategori';
 
     protected $fillable = [
+        'id_toko',
         'kategori',
         'jenis_transaksi',
 

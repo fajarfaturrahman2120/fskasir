@@ -20,8 +20,10 @@
 
         {{-- Action Buttons --}}
         <div class="d-flex gap-2 mb-3">
-            <a class="btn btn-success" href="{{ route('produk.create') }}">+ Tambah Produk</a>
-            <a class="btn btn-outline-primary" href="{{ route('kategori.index') }}">Kategori</a>
+            <a class="btn btn-success" href="{{ route('produk.create', $toko->id_toko) }}">+ Tambah Produk</a>
+            <a href="{{ route('kategori.index', $toko->id_toko) }}" class="btn btn-primary">
+                Kategori
+            </a>
         </div>
 
         {{-- Filter --}}
@@ -68,17 +70,31 @@
 
                         {{-- Tombol --}}
                         <div class="btn-group gap-1">
-                            <a href="{{ route('produk.show', $item->id_produk) }}" class="btn btn-sm btn-outline-primary"
-                                title="Detail">
-                                👁
+                            <!-- DETAIL -->
+                            <a class="btn btn-sm btn-info"
+                                href="{{ route('produk.show', [
+                                    'id_toko' => $toko->id_toko,
+                                    'id_produk' => $item->id_produk,
+                                ]) }}">
+                                Detail
                             </a>
 
-                            <a href="{{ route('produk.edit', $item->id_produk) }}" class="btn btn-sm btn-warning"
-                                title="Edit">
+                            <!-- EDIT -->
+                            <a href="{{ route('produk.edit', [
+                                'id_toko' => $toko->id_toko,
+                                'id_produk' => $item->id_produk,
+                            ]) }}"
+                                class="btn btn-sm btn-warning" title="Edit">
                                 ✏
                             </a>
 
-                            <form action="{{ route('produk.destroy', $item->id_produk) }}" method="POST">
+                            <!-- DELETE -->
+                            <form
+                                action="{{ route('produk.destroy', [
+                                    'id_toko' => $toko->id_toko,
+                                    'id_produk' => $item->id_produk,
+                                ]) }}"
+                                method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" title="Hapus"
@@ -87,6 +103,7 @@
                                 </button>
                             </form>
                         </div>
+
 
                     </div>
                 @empty

@@ -44,18 +44,38 @@ Route::get('/toko/{id_toko}/edit', [TokoController::class, 'edit'])->name('toko.
 Route::put('/toko/{id_toko}', [TokoController::class, 'update'])->name('toko.update');
 Route::delete('/toko/{id_toko}', [TokoController::class, 'destroy'])->name('toko.destroy');
 //Produk
-Route::get('/produk',[ProdukController::class, 'index'])->name('produk.index');
-Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');
-Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
-Route::get('produk/{id_produk}', [ProdukController::class, 'show'])->name('produk.show');
+Route::get('/toko/{id_toko}/produk', [ProdukController::class, 'index'])->name('produk.index');
+Route::get('/toko/{id_toko}/produk/create', [ProdukController::class, 'create'])->name('produk.create');
+Route::post('/produk/{id_toko}', [ProdukController::class, 'store'])->name('produk.store');
+Route::get('/toko/{id_toko}/produk/{id_produk}',
+    [ProdukController::class, 'show']
+)->name('produk.show');
+
 Route::get('/produk/{id_produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
 Route::put('/produk/{id_produk}', [ProdukController::class, 'update'])->name('produk.update');
 Route::delete('/produk/{id_produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 //kategori
-Route::get('/kategori',[KategoriController::class, 'index'])->name('kategori.index');
-Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
-Route::get('/kategori/{no}', [KategoriController::class, 'show'])->name('kategori.show');
-Route::get('/kategori/{no}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-Route::put('/kategori/{no}', [KategoriController::class, 'update'])->name('kategori.update');
-Route::delete('/kategori/{no}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+// Pastikan ada {id_toko}
+// 1. Rute Index (Menampilkan daftar kategori berdasarkan toko)
+// KATEGORI (pakai id_toko)
+Route::prefix('toko/{id_toko}')->group(function () {
+
+    Route::get('/kategori', [KategoriController::class, 'index'])
+        ->name('kategori.index');
+
+    Route::get('/kategori/create', [KategoriController::class, 'create'])
+        ->name('kategori.create');
+
+    Route::post('/kategori', [KategoriController::class, 'store'])
+        ->name('kategori.store');
+
+    Route::get('/kategori/{id_kategori}/edit', [KategoriController::class, 'edit'])
+        ->name('kategori.edit');
+
+    Route::put('/kategori/{id_kategori}', [KategoriController::class, 'update'])
+        ->name('kategori.update');
+
+    Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
+        ->name('kategori.destroy');
+});
+
