@@ -70,36 +70,29 @@
 
                         {{-- Tombol --}}
                         <div class="btn-group gap-1">
-                            <!-- DETAIL -->
+                            <a class="btn btn-sm btn-primary"
+                                href="{{ route('stok.index', ['id_toko' => $toko->id_toko, 'id_produk' => $item->id_produk]) }}">
+                                Lihat Stok
+                            </a>
+
                             <a class="btn btn-sm btn-info"
-                                href="{{ route('produk.show', [
-                                    'id_toko' => $toko->id_toko,
-                                    'id_produk' => $item->id_produk,
-                                ]) }}">
-                                Detail
+                                href="{{ route('produk.show', ['id_toko' => $toko->id_toko, 'id_produk' => $item->id_produk]) }}">
+                                <i class="bi bi-eye"></i>
                             </a>
 
-                            <!-- EDIT -->
-                            <a href="{{ route('produk.edit', [
-                                'id_toko' => $toko->id_toko,
-                                'id_produk' => $item->id_produk,
-                            ]) }}"
+                            <a href="{{ route('produk.edit', ['id_toko' => $toko->id_toko, 'id_produk' => $item->id_produk]) }}"
                                 class="btn btn-sm btn-warning" title="Edit">
-                                ✏
+                                <i class="bi bi-pencil"></i>
                             </a>
 
-                            <!-- DELETE -->
                             <form
-                                action="{{ route('produk.destroy', [
-                                    'id_toko' => $toko->id_toko,
-                                    'id_produk' => $item->id_produk,
-                                ]) }}"
+                                action="{{ route('produk.destroy', ['id_toko' => $toko->id_toko, 'id_produk' => $item->id_produk]) }}"
                                 method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" title="Hapus"
                                     onclick="return confirm('Hapus produk ini?')">
-                                    🗑
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </form>
                         </div>

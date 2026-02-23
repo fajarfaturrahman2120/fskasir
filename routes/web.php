@@ -7,6 +7,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TokoController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\StokController;
 
 
 Route::get('/', function () {
@@ -54,10 +55,7 @@ Route::get('/toko/{id_toko}/produk/{id_produk}',
 Route::get('/produk/{id_produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
 Route::put('/produk/{id_produk}', [ProdukController::class, 'update'])->name('produk.update');
 Route::delete('/produk/{id_produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
-//kategori
-// Pastikan ada {id_toko}
-// 1. Rute Index (Menampilkan daftar kategori berdasarkan toko)
-// KATEGORI (pakai id_toko)
+
 Route::prefix('toko/{id_toko}')->group(function () {
 
     Route::get('/kategori', [KategoriController::class, 'index'])
@@ -77,5 +75,12 @@ Route::prefix('toko/{id_toko}')->group(function () {
 
     Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
         ->name('kategori.destroy');
-});
+    //stok
+
+Route::get('toko/{id_toko}/produk/{id_produk}/stok', [StokController::class, 'index'])->name('stok.index');
+    Route::get('/stok/{id}/detail', [StokController::class, 'show'])
+        ->name('stok.detail');
+
+    Route::delete('/stok/{id}', [StokController::class, 'destroy'])
+        ->name('stok.destroy');});
 

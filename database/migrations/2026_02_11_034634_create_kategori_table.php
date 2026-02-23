@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kategori', function (Blueprint $table) {
             $table->id('id_kategori');
-            $table->unsignedBigInteger('id_toko')->after('id_kategori');
+            $table->unsignedBigInteger('id_toko');
             $table->string('kategori');
             $table->string('jenis_transaksi');
             $table->timestamps();
