@@ -28,7 +28,7 @@
             <div class="ms-auto">
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-                        Admin {{ Auth::user()->name }}
+                        Admin {{ Auth::user()->name ?? 'Guest' }}
                         <span class="ms-2 bg-primary rounded-circle d-flex align-items-center justify-content-center"
                               style="width:32px;height:32px;">
                             <i class="bi bi-person-fill text-white"></i>

@@ -2,42 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Toko;
 use App\Models\Produk;
 use App\Models\Stok;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StokController extends Controller
 {
-    /**
-     * Tampilkan daftar stok untuk produk tertentu di toko tertentu
-     *
-     * @param  int  $id_toko
-     * @param  int  $id_produk
-     * @return \Illuminate\View\View
-     */
-    public function index($id_toko, $id_produk)
-    {
-        // Ambil data toko, jika tidak ditemukan akan otomatis 404
-        $toko = Toko::findOrFail($id_toko);
+   public function index($produk_id)
+{
+    $produk = Produk::with('toko')->findOrFail($produk_id);
 
-        // Ambil data produk dari toko yang bersangkutan
-        $produk = Produk::where('id_produk', $id_produk)
-                        ->where('id_toko', $id_toko)
-                        ->firstOrFail(); // pastikan ada firstOrFail()
-
-        // Ambil data stok terkait produk, urut dari terbaru
-        $stok = Stok::where('id_produk', $id_produk)
-                    ->orderBy('created_at', 'desc')
+    $riwayat = Stok::where('id_produk', $produk_id)
+                    ->latest()
                     ->get();
 
-        // Jika stok kosong, bisa dikasih notifikasi kosong (opsional)
-        // $stok->isEmpty() ? session()->flash('info', 'Stok untuk produk ini masih kosong.') : null;
+    $toko = $produk->toko;
 
-        return view('produk.stok', [
-            'toko' => $toko,
-            'produk' => $produk,
-            'stok' => $stok
+    return view('stok.index', compact('produk', 'riwayat', 'toko'));
+}
+
+    public function store(Request $request, $produk_id)
+    {
+        $request->validate([
+            'tipe' => 'required|in:tambah,kurang,kembalian',
+            'qty' => 'required|integer|min:1'
         ]);
+
+        $produk = Produk::findOrFail($produk_id);
+
+        DB::transaction(function () use ($request, $produk, $produk_id) {
+
+            if ($request->tipe == 'tambah' || $request->tipe == 'kembalian') {
+                $produk->increment('stok', $request->qty);
+            }
+
+            if ($request->tipe == 'kurang') {
+                if ($produk->stok < $request->qty) {
+                    abort(400, 'Stok tidak cukup');
+                }
+                $produk->decrement('stok', $request->qty);
+            }
+
+            Stok::create([
+                'produk_id' => $produk_id,
+                'tipe' => $request->tipe,
+                'qty' => $request->qty,
+                'keterangan' => $request->keterangan
+            ]);
+        });
+
+        return back()->with('success', 'Stok berhasil diperbarui');
     }
 }

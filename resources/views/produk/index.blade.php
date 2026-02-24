@@ -70,9 +70,8 @@
 
                         {{-- Tombol --}}
                         <div class="btn-group gap-1">
-                            <a class="btn btn-sm btn-primary"
-                                href="{{ route('stok.index', ['id_toko' => $toko->id_toko, 'id_produk' => $item->id_produk]) }}">
-                                Lihat Stok
+                            <a href="{{ route('stok.index', ['id_toko' => $toko->id_toko, 'id_produk' => $item->id_produk]) }}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-box-seam"></i>
                             </a>
 
                             <a class="btn btn-sm btn-info"

@@ -10,33 +10,20 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\StokController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/auth', function () {
-    return redirect('/login');
+Route::get('/', function () {return view('welcome');});
 
-});
+Route::get('/auth', function () { return redirect('/login');});
 
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'Proseslogin'])->name('login.proses');
-
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.proses');
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 
-Route::get('/dashboard', [AuthController::class, 'dashboard'])
-    ->middleware('auth')
-    ->name('dashboard');
-
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout');
+Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
 //menu Kasir
 Route::get('/menu/{id_toko}', [MenuController::class, 'index'])->name('menu.index');
-
-
 Route::get('/toko',[TokoController::class, 'index'])->name('toko.index');
 Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
 Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
@@ -75,12 +62,18 @@ Route::prefix('toko/{id_toko}')->group(function () {
 
     Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
         ->name('kategori.destroy');
-    //stok
 
-Route::get('toko/{id_toko}/produk/{id_produk}/stok', [StokController::class, 'index'])->name('stok.index');
-    Route::get('/stok/{id}/detail', [StokController::class, 'show'])
-        ->name('stok.detail');
 
-    Route::delete('/stok/{id}', [StokController::class, 'destroy'])
-        ->name('stok.destroy');});
+});
+   // ======================
+    // STOK
+    // ======================
+
+    Route::get('/produk/{id_produk}/stok',
+        [StokController::class, 'index']
+    )->name('stok.index');
+
+    Route::post('/produk/{id_produk}/stok',
+        [StokController::class, 'store']
+    )->name('stok.store');
 

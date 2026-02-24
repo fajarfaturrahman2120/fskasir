@@ -11,19 +11,20 @@ class Stok extends Model
 
     protected $table = 'stok'; // nama tabel
 
-    protected $primaryKey = 'id_stok'; // jika primary key bukan 'id'
+
 
     protected $fillable = [
-        'id_produk',
-        'jumlah',     // jumlah stok
-        'keterangan', // optional, misal catatan stok
+        'produk_id',
+        'tipe',
+        'qty',
+        'keterangan'
     ];
 
     public $timestamps = true;
 
     // Relasi ke produk
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
-    }
+public function produk()
+  {
+    return $this->belongsTo(Produk::class, 'id_produk');
+}
 }
