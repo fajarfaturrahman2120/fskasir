@@ -69,11 +69,6 @@ Route::prefix('toko/{id_toko}')->group(function () {
     // STOK
     // ======================
 
-    Route::get('/produk/{id_produk}/stok',
-        [StokController::class, 'index']
-    )->name('stok.index');
-
-    Route::post('/produk/{id_produk}/stok',
-        [StokController::class, 'store']
-    )->name('stok.store');
-
+Route::get('/stok/{id_produk}', [StokController::class, 'index'])->name('stok.index');
+Route::get('/stok/{id_produk}/create', [StokController::class, 'create'])->name('stok.create');
+Route::post('/stok/{id_produk}', [StokController::class, 'store'])->name('stok.store');

@@ -32,8 +32,11 @@ class Produk extends Model
     }
 public function kategori()
 {
-    // Pastikan 'id_kategori' adalah foreign key di tabel produk
-    // dan primary key di tabel kategori adalah 'id_kategori'
+
     return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
+}
+public function stok()
+{
+    return $this->hasMany(Stok::class, 'produk_id');
 }
 }
