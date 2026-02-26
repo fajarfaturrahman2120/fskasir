@@ -72,3 +72,14 @@ Route::prefix('toko/{id_toko}')->group(function () {
 Route::get('/stok/{id_produk}', [StokController::class, 'index'])->name('stok.index');
 Route::get('/stok/{id_produk}/create', [StokController::class, 'create'])->name('stok.create');
 Route::post('/stok/{id_produk}', [StokController::class, 'store'])->name('stok.store');
+Route::get('/stok/{id_produk}/kurang', [StokController::class, 'kurang'])->name('stok.kurang.form');
+Route::post('/stok/{id_produk}/kurang',    [StokController::class, 'storeKurang'])->name('stok.kurang.store');
+// Form kembali stok
+Route::get('/stok/{id_produk}/kembali',
+    [StokController::class, 'createKembali']
+)->name('stok.kembali.form');
+
+// Proses simpan kembali stok
+Route::post('/stok/{id_produk}/kembali',
+    [StokController::class, 'storeKembali']
+)->name('stok.kembali.store');

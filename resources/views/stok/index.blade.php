@@ -4,19 +4,19 @@
 @section('content')
 
     <div class="container-fluid">
-                <div class="mb-3">
-                    <h4>Toko Owner {{ $produk->toko->name ?? '-' }}</h4>
+        <div class="mb-3">
+            <h4>Toko Owner {{ $produk->toko->name ?? '-' }}</h4>
 
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Owner</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Toko</a></li>
-                            <li class="breadcrumb-item active">Detail</li>
-                            <li class="breadcrumb-item active">Produk</li>
-                            <li class="breadcrumb-item active">Stok</li>
-                        </ol>
-                    </nav>
-                </div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">Owner</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Toko</a></li>
+                    <li class="breadcrumb-item active">Detail</li>
+                    <li class="breadcrumb-item active">Produk</li>
+                    <li class="breadcrumb-item active">Stok</li>
+                </ol>
+            </nav>
+        </div>
         {{-- NOTIFIKASI --}}
         @if (session('success'))
             <div class="alert alert-success">
@@ -46,12 +46,16 @@
                         + Tambah Stok
                     </a>
 
-                    <a href="" class="btn btn-danger">
+                    <a href="{{ route('stok.kurang.form', $produk->id_produk) }}" class="btn btn-danger">
                         - Kurang Stok
                     </a>
 
-                    <a href="" class="btn btn-warning text-dark">
+                    <a href="{{ route('stok.kembali.form', $produk->id_produk) }}" class="btn btn-warning text-dark">
                         ↺ Kembalian Stok
+                    </a>
+
+                    <a href="{{ route('produk.index', $produk->toko->id_toko) }}" class="btn btn-secondary">
+                        ← Kembali ke Produk
                     </a>
 
                 </div>
@@ -72,7 +76,7 @@
                         <tr>
                             <th class="text-start">Deskripsi</th>
                             <th width="15%">Qty</th>
-                            <th width="15%">Saldo</th>
+                            <th width="15%">Total Sekarang</th>
                             <th width="15%">Status</th>
                         </tr>
                     </thead>
@@ -94,13 +98,17 @@
 
                                 {{-- QTY --}}
                                 <td class="text-center fw-bold">
-                                    @if ($item->tipe == 'tambah')
+                                    @if ($item->tipe === 'tambah')
                                         <span class="text-success">
                                             +{{ number_format($item->qty, 0, ',', '.') }}
                                         </span>
-                                    @else
+                                    @elseif ($item->tipe === 'kurang' || $item->tipe === 'kembali')
                                         <span class="text-danger">
                                             -{{ number_format($item->qty, 0, ',', '.') }}
+                                        </span>
+                                    @else
+                                        <span class="text-secondary">
+                                            {{ number_format($item->qty, 0, ',', '.') }}
                                         </span>
                                     @endif
                                 </td>
@@ -112,10 +120,14 @@
 
                                 {{-- STATUS --}}
                                 <td class="text-center">
-                                    @if ($item->status_bayar == 'lunas')
-                                        <span class="badge bg-success">Lunas</span>
+                                    @if ($item->tipe === 'tambah')
+                                        <span class="badge bg-success">Masuk</span>
+                                    @elseif ($item->tipe === 'kurang')
+                                        <span class="badge bg-danger">Keluar</span>
+                                    @elseif ($item->tipe === 'kembali')
+                                        <span class="badge bg-warning text-dark">Kembali</span>
                                     @else
-                                        <span class="badge bg-warning text-dark">Hutang</span>
+                                        <span class="badge bg-secondary">-</span>
                                     @endif
                                 </td>
 

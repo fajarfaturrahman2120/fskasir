@@ -13,7 +13,7 @@ return new class extends Migration
 
     $table->unsignedBigInteger('id_produk');
 
-    $table->enum('tipe', ['tambah', 'kurang']);
+    $table->enum('tipe', ['tambah', 'kurang','kembali']);
     $table->integer('qty');
 
     $table->string('supplier')->nullable();
