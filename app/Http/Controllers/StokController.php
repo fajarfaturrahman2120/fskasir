@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\Stok;
+use App\Models\Supplier;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +16,13 @@ class StokController extends Controller
     // ==============================
     public function index($id_produk)
 {
-    $produk = Produk::with('toko')->findOrFail($id_produk);
+         $produk = Produk::with('toko')->findOrFail($id_produk);
 
-    $riwayat = Stok::where('id_produk', $id_produk)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+        $riwayat = Stok::with('supplier')
+                ->where('id_produk', $id_produk)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
 
     // Hitung running saldo
     $saldo = $produk->jumlah_stok;
@@ -40,12 +43,13 @@ class StokController extends Controller
     // ==============================
     // FORM TAMBAH STOK
     // ==============================
-    public function create($id_produk)
-    {
-         $produk = Produk::with('toko')->findOrFail($id_produk);
-        return view('stok.create', compact('produk'));
-    }
+   public function create($id_produk)
+{
+    $produk = Produk::findOrFail($id_produk);
+    $suppliers = Supplier::all();
 
+    return view('stok.create', compact('produk', 'suppliers'));
+}
     // ==============================
     // SIMPAN TAMBAH STOK
     // ==============================
@@ -55,6 +59,7 @@ class StokController extends Controller
         'qty' => 'required|integer|min:1',
         'harga_total' => 'required|numeric',
         'tanggal_input' => 'required|date',
+        'supplier_id' => 'required|exists:supplier,id_supplier',
     ]);
 
     DB::transaction(function () use ($request, $id_produk) {
@@ -70,7 +75,7 @@ class StokController extends Controller
             'id_produk' => $id_produk,
             'tipe' => 'tambah',
             'qty' => $request->qty,
-            'supplier' => $request->supplier,
+           'supplier_id' => $request->id_supplier,
             'harga_total' => $request->harga_total,
             'harga_satuan' => $hargaSatuan,
             'status_bayar' => $request->status_bayar,

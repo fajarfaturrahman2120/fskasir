@@ -91,7 +91,7 @@
                                         {{ ucfirst($item->tipe) }} Stok
                                     </div>
                                     <small class="text-muted">
-                                        {{ $item->supplier ?? 'Tanpa Supplier' }}
+                                       {{ $item->supplier?->nama_supplier ?? 'Tanpa Supplier' }}
                                         • {{ \Carbon\Carbon::parse($item->tanggal_input)->format('d F Y') }}
                                     </small>
                                 </td>

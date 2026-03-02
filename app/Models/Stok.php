@@ -15,7 +15,7 @@ class Stok extends Model
         'id_produk',
         'tipe',
         'qty',
-        'supplier',
+        'id_supplier',
         'harga_total',
         'harga_satuan',
         'status_bayar',
@@ -35,6 +35,13 @@ class Stok extends Model
     // Relasi ke produk
     public function produk()
     {
-        return $this->belongsTo(Produk::class, 'produk_id');
+        return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
+    }
+
+// app/Models/Stok.php
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'id_supplier', 'id_supplier');
     }
 }
