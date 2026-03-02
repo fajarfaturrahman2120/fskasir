@@ -8,6 +8,7 @@ use App\Http\Controllers\TokoController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\SupplierController;
 
 
 Route::get('/', function () {return view('welcome');});
@@ -83,3 +84,30 @@ Route::get('/stok/{id_produk}/kembali',
 Route::post('/stok/{id_produk}/kembali',
     [StokController::class, 'storeKembali']
 )->name('stok.kembali.store');
+//supplier
+
+
+// INDEX
+Route::get('/toko/supplier/{id_toko}',
+    [SupplierController::class, 'index']
+)->name('supplier.index');
+
+// CREATE (Form)
+Route::get('/toko/supplier/{id_toko}/create',
+    [SupplierController::class, 'create']
+)->name('supplier.create');
+
+// STORE (Simpan)
+Route::post('/toko/supplier/{id_toko}',
+    [SupplierController::class, 'store']
+)->name('supplier.store');
+
+// EDIT (Form Edit)
+Route::get('/toko/supplier/{id_toko}/{id_supplier}/edit',
+    [SupplierController::class, 'edit']
+)->name('supplier.edit');
+
+// UPDATE (Update Data)
+Route::put('/toko/supplier/{id_toko}/{id_supplier}',
+    [SupplierController::class, 'update']
+)->name('supplier.update');
