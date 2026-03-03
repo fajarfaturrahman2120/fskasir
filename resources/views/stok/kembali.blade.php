@@ -15,8 +15,15 @@
                     <div class="row g-3">
 
                         <div class="col-md-6">
-                            <label class="form-label">Supplier</label>
-                            <input type="text" name="supplier" class="form-control" required>
+                            <label>Supplier</label>
+                            <select name="id_supplier" class="form-control" required>
+                                <option value="">-- Pilih Supplier --</option>
+                                @foreach ($suppliers as $supplier)
+                                    <option value="{{ $supplier->id_supplier }}">
+                                        {{ $supplier->nama_supplier }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-md-6">
@@ -78,19 +85,19 @@
 @endsection
 
 @push('scripts')
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
-    const jumlahInput = document.getElementById("jumlah_stok");
-    const hargaTotalInput = document.getElementById("harga_total");
-    const hargaJual = parseFloat(document.getElementById("harga_jual").value) || 0;
+            const jumlahInput = document.getElementById("jumlah_stok");
+            const hargaTotalInput = document.getElementById("harga_total");
+            const hargaJual = parseFloat(document.getElementById("harga_jual").value) || 0;
 
-    jumlahInput.addEventListener("input", function () {
-        let jumlah = parseFloat(this.value) || 0;
-        let total = jumlah * hargaJual;
-        hargaTotalInput.value = total;
-    });
+            jumlahInput.addEventListener("input", function() {
+                let jumlah = parseFloat(this.value) || 0;
+                let total = jumlah * hargaJual;
+                hargaTotalInput.value = total;
+            });
 
-});
-</script>
+        });
+    </script>
 @endpush

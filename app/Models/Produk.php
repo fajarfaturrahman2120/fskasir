@@ -37,6 +37,6 @@ public function kategori()
 }
 public function stok()
 {
-    return $this->hasMany(Stok::class, 'produk_id');
+    return $this->hasMany(Stok::class, 'id_produk', 'id_produk');
 }
 }

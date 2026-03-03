@@ -43,58 +43,57 @@ class StokController extends Controller
     // ==============================
     // FORM TAMBAH STOK
     // ==============================
-   public function create($id_produk)
-{
-    $produk = Produk::findOrFail($id_produk);
-    $suppliers = Supplier::all();
+public function create($id_produk)
+    {
+        $produk = Produk::where('id_produk', $id_produk)->firstOrFail();
+        $suppliers = Supplier::all();
 
-    return view('stok.create', compact('produk', 'suppliers'));
-}
-    // ==============================
-    // SIMPAN TAMBAH STOK
-    // ==============================
-public function store(Request $request, $id_produk)
-{
-    $request->validate([
-        'qty'           => 'required|integer|min:1',
-        'harga_total'   => 'required|numeric|min:0',
-        'tanggal_input' => 'required|date',
-        'id_supplier'   => 'required|exists:supplier,id_supplier',
-    ]);
+        return view('stok.create', compact('produk', 'suppliers'));
+    }
 
-    DB::transaction(function () use ($request, $id_produk) {
-
-        $produk = Produk::lockForUpdate()->findOrFail($id_produk);
-
-        // Tambah stok utama
-        $produk->increment('jumlah_stok', $request->qty);
-
-        // Hitung harga satuan
-        $hargaSatuan = $request->qty > 0
-            ? $request->harga_total / $request->qty
-            : 0;
-
-        // Simpan riwayat stok
-        Stok::create([
-            'id_produk'     => $id_produk,
-            'tipe'          => 'tambah',
-            'qty'           => $request->qty,
-            'id_supplier'   => $request->id_supplier, // simpan ke kolom supplier_id
-            'harga_total'   => $request->harga_total,
-            'harga_satuan'  => $hargaSatuan,
-            'status_bayar'  => $request->status_bayar ?? 'lunas',
-            'pembayaran'    => $request->pembayaran ?? 'cash',
-            'tanggal_input' => $request->tanggal_input,
-            'expired'       => $request->expired,
-            'keterangan'    => $request->keterangan
+    /**
+     * Simpan data stok
+     */
+    public function store(Request $request, $id_produk)
+    {
+        $request->validate([
+            'id_supplier'     => 'required',
+            'tanggal_input'   => 'required|date',
+            'qty'             => 'required|integer|min:1',
+            'harga_total'     => 'required|numeric|min:0',
+            'status_bayar'    => 'required',
+            'pembayaran'      => 'required',
         ]);
-        dd($request->all());
-    });
 
-    return redirect()
-        ->route('stok.index', $id_produk)
-        ->with('success', 'Stok berhasil ditambahkan');
-}
+        $produk = Produk::where('id_produk', $id_produk)->firstOrFail();
+
+        // Hitung harga satuan jika kosong
+        $hargaSatuan = $request->harga_satuan;
+        if (!$hargaSatuan && $request->qty > 0) {
+            $hargaSatuan = $request->harga_total / $request->qty;
+        }
+
+        // Simpan ke tabel stok
+        Stok::create([
+            'id_produk'      => $produk->id_produk,
+            'id_supplier'    => $request->id_supplier,
+            'tanggal_input'  => $request->tanggal_input,
+            'qty'            => $request->qty,
+            'harga_total'    => $request->harga_total,
+            'harga_satuan'   => $hargaSatuan,
+            'status_bayar'   => $request->status_bayar,
+            'pembayaran'     => $request->pembayaran,
+            'expired'        => $request->expired, // pastikan name input diperbaiki
+            'keterangan'     => $request->keterangan,
+        ]);
+
+        // Tambah stok ke tabel produk
+    $produk->increment('jumlah_stok', (int)$request->qty);
+
+        return redirect()
+            ->route('stok.index', $produk->id_produk)
+            ->with('success', 'Stok berhasil ditambahkan');
+    }
 // ==============================
 // FORM KURANG STOK
 // ==============================
@@ -144,14 +143,15 @@ public function storeKurang(Request $request, $id_produk)
 }
 public function createKembali($id_produk)
 {
-    $produk = \App\Models\Produk::findOrFail($id_produk);
+    $produk = Produk::where('id_produk', $id_produk)->firstOrFail();
+    $suppliers = Supplier::all();
 
-    return view('stok.kembali', compact('produk'));
+    return view('stok.kembali', compact('produk', 'suppliers'));
 }
  public function storeKembali(Request $request, $id_produk)
 {
     $request->validate([
-        'supplier'      => 'required|string|max:255',
+        'id_supplier'   => 'required',
         'jumlah_stok'   => 'required|integer|min:1',
         'tanggal_input' => 'required|date',
         'status_bayar'  => 'required',
@@ -160,25 +160,31 @@ public function createKembali($id_produk)
 
     DB::transaction(function () use ($request, $id_produk) {
 
-        $produk = Produk::lockForUpdate()->findOrFail($id_produk);
+        $produk = Produk::lockForUpdate()
+            ->where('id_produk', $id_produk)
+            ->firstOrFail();
 
-        $qty = $request->jumlah_stok;
+        $qty = (int) $request->jumlah_stok;
 
-        // Tambah stok ke tabel produk
-        $produk->jumlah_stok += $qty;
-        $produk->save();
+        // ❗ CEK supaya stok tidak minus
+        if ($qty > $produk->jumlah_stok) {
+            throw new \Exception('Jumlah retur melebihi stok tersedia');
+        }
+
+        // 🔴 Karena ini KEMBALI ke supplier → stok berkurang
+        $produk->decrement('jumlah_stok', $qty);
 
         // Hitung harga satuan
         $hargaSatuan = $qty > 0
             ? $request->harga_total / $qty
             : 0;
 
-        // Simpan riwayat ke tabel stok
+        // Simpan riwayat
         Stok::create([
             'id_produk'     => $id_produk,
+            'id_supplier'   => $request->id_supplier,
             'tipe'          => 'kembali',
-            'qty'           => $qty,
-            'supplier'      => $request->supplier,
+            'qty'           => -$qty, // negatif karena keluar
             'harga_total'   => $request->harga_total,
             'harga_satuan'  => $hargaSatuan,
             'status_bayar'  => $request->status_bayar,
@@ -192,5 +198,4 @@ public function createKembali($id_produk)
         ->route('stok.index', $id_produk)
         ->with('success', 'Stok berhasil dikembalikan');
 }
-
 }
