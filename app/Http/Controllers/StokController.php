@@ -24,7 +24,6 @@ class StokController extends Controller
                 ->get();
 
 
-    // Hitung running saldo
     $saldo = $produk->jumlah_stok;
 
     foreach ($riwayat as $item) {
@@ -40,6 +39,7 @@ class StokController extends Controller
     return view('stok.index', compact('produk','riwayat'));
 }
 
+
     // ==============================
     // FORM TAMBAH STOK
     // ==============================
@@ -53,37 +53,42 @@ class StokController extends Controller
     // ==============================
     // SIMPAN TAMBAH STOK
     // ==============================
-    public function store(Request $request, $id_produk)
+public function store(Request $request, $id_produk)
 {
     $request->validate([
-        'qty' => 'required|integer|min:1',
-        'harga_total' => 'required|numeric',
+        'qty'           => 'required|integer|min:1',
+        'harga_total'   => 'required|numeric|min:0',
         'tanggal_input' => 'required|date',
-        'supplier_id' => 'required|exists:supplier,id_supplier',
+        'id_supplier'   => 'required|exists:supplier,id_supplier',
     ]);
 
     DB::transaction(function () use ($request, $id_produk) {
 
         $produk = Produk::lockForUpdate()->findOrFail($id_produk);
 
-        // Update stok utama
+        // Tambah stok utama
         $produk->increment('jumlah_stok', $request->qty);
 
-        $hargaSatuan = $request->harga_total / $request->qty;
+        // Hitung harga satuan
+        $hargaSatuan = $request->qty > 0
+            ? $request->harga_total / $request->qty
+            : 0;
 
+        // Simpan riwayat stok
         Stok::create([
-            'id_produk' => $id_produk,
-            'tipe' => 'tambah',
-            'qty' => $request->qty,
-           'supplier_id' => $request->id_supplier,
-            'harga_total' => $request->harga_total,
-            'harga_satuan' => $hargaSatuan,
-            'status_bayar' => $request->status_bayar,
-            'pembayaran' => $request->pembayaran,
+            'id_produk'     => $id_produk,
+            'tipe'          => 'tambah',
+            'qty'           => $request->qty,
+            'id_supplier'   => $request->id_supplier, // simpan ke kolom supplier_id
+            'harga_total'   => $request->harga_total,
+            'harga_satuan'  => $hargaSatuan,
+            'status_bayar'  => $request->status_bayar ?? 'lunas',
+            'pembayaran'    => $request->pembayaran ?? 'cash',
             'tanggal_input' => $request->tanggal_input,
-            'expired' => $request->expired,
-            'keterangan' => $request->keterangan
+            'expired'       => $request->expired,
+            'keterangan'    => $request->keterangan
         ]);
+        dd($request->all());
     });
 
     return redirect()

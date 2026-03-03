@@ -11,6 +11,7 @@ use App\Http\Controllers\StokController;
 use App\Http\Controllers\SupplierController;
 
 
+
 Route::get('/', function () {return view('welcome');});
 
 Route::get('/auth', function () { return redirect('/login');});
@@ -66,24 +67,9 @@ Route::prefix('toko/{id_toko}')->group(function () {
 
 
 });
-   // ======================
-    // STOK
-    // ======================
 
-Route::get('/stok/{id_produk}', [StokController::class, 'index'])->name('stok.index');
-Route::get('/stok/{id_produk}/create', [StokController::class, 'create'])->name('stok.create');
-Route::post('/stok/{id_produk}', [StokController::class, 'store'])->name('stok.store');
-Route::get('/stok/{id_produk}/kurang', [StokController::class, 'kurang'])->name('stok.kurang.form');
-Route::post('/stok/{id_produk}/kurang',    [StokController::class, 'storeKurang'])->name('stok.kurang.store');
-// Form kembali stok
-Route::get('/stok/{id_produk}/kembali',
-    [StokController::class, 'createKembali']
-)->name('stok.kembali.form');
 
-// Proses simpan kembali stok
-Route::post('/stok/{id_produk}/kembali',
-    [StokController::class, 'storeKembali']
-)->name('stok.kembali.store');
+
 //supplier
 
 
@@ -111,3 +97,45 @@ Route::get('/toko/supplier/{id_toko}/{id_supplier}/edit',
 Route::put('/toko/supplier/{id_toko}/{id_supplier}',
     [SupplierController::class, 'update']
 )->name('supplier.update');
+//stok
+// ==============================
+// RIWAYAT STOK
+// ==============================
+Route::get('/produk/{id_produk}/stok', [StokController::class, 'index'])
+    ->name('stok.index');
+
+// ==================
+// TAMBAH STOK
+// ==================
+Route::get('/produk/{id_produk}/stok/create',
+    [StokController::class, 'create']
+)->name('stok.create');
+
+Route::post('/produk/{id_produk}/stok/store',
+    [StokController::class, 'store']
+)->name('stok.store');
+
+
+// ==================
+// KURANG STOK
+// ==================
+Route::get('/produk/{id_produk}/stok/kurang',
+    [StokController::class, 'kurang']
+)->name('stok.kurang.form');
+
+Route::post('/produk/{id_produk}/stok/kurang/store',
+    [StokController::class, 'storeKurang']
+)->name('stok.kurang.store');
+
+
+// ==================
+// KEMBALI STOK
+// ==================
+Route::get('/produk/{id_produk}/stok/kembali',
+    [StokController::class, 'createKembali']
+)->name('stok.kembali.form');
+
+Route::post('/produk/{id_produk}/stok/kembali/store',
+    [StokController::class, 'storeKembali']
+)->name('stok.kembali.store');
+

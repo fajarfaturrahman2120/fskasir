@@ -38,10 +38,10 @@ class Stok extends Model
         return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
     }
 
-// app/Models/Stok.php
+
 
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class, 'id_supplier', 'id_supplier');
+        return $this->belongsTo(Supplier::class, 'id_supplier');
     }
 }

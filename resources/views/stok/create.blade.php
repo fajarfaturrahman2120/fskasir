@@ -15,10 +15,10 @@
 
             <div class="col-md-6">
                 <label>Supplier</label>
-                <select name="supplier_id" class="form-control" required>
+                <select name="id_supplier" class="form-control" required>
                     <option value="">-- Pilih Supplier --</option>
                     @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id_supplier }}">
+                        <option value="{{ $supplier->id_supllier }}">
                             {{ $supplier->nama_supplier }}
                         </option>
                     @endforeach
@@ -79,7 +79,7 @@
             <div class="col-md-6 mt-3">
                 <label>Tanggal Expired</label>
                 <input type="date"
-                       name="expired"
+                       name="expi   red"
                        class="form-control">
             </div>
 
