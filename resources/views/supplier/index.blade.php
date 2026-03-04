@@ -61,10 +61,10 @@
                                     </a>
 
 
-                                    {{-- <a href="{{ route('supplier.show', $supplier->id_supplier) }}"
-                                   class="btn btn-primary btn-sm">
-                                    <i class="bi bi-eye"></i>
-                                </a> --}}
+                                    <a href="{{ route('stok.index', [$id_toko, $supplier->id_supplier]) }}"
+                                        class="btn btn-primary btn-sm">
+                                        <i class="bi bi-floppy"></i>
+                                    </a>
 
 
                                     <a href="{{ route('supplier.edit', [$id_toko, $supplier->id_supplier]) }}"
@@ -73,15 +73,14 @@
                                     </a>
 
 
-                                    {{-- <form action="{{ route('supplier.destroy', $supplier->id_supplier) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
+                                    <form action="{{ route('supplier.destroy', [$id_toko, $supplier->id_supplier]) }}"
+                                        method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-sm">
                                             <i class="bi bi-trash"></i>
                                         </button>
-                                    </form> --}}
-
+                                    </form>
                                 </td>
                             </tr>
                         @empty

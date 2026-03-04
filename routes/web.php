@@ -97,6 +97,9 @@ Route::get('/toko/supplier/{id_toko}/{id_supplier}/edit',
 Route::put('/toko/supplier/{id_toko}/{id_supplier}',
     [SupplierController::class, 'update']
 )->name('supplier.update');
+Route::delete('/toko/{id_toko}/supplier/{id_supplier}',
+    [SupplierController::class, 'destroy']
+)->name('supplier.destroy');
 //stok
 // ==============================
 // RIWAYAT STOK

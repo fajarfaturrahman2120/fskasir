@@ -27,12 +27,12 @@
         </div>
 
         {{-- Filter --}}
-        <div class="d-flex justify-content-between mb-3">
+        {{-- <div class="d-flex justify-content-between mb-3">
             <select class="form-select w-25">
                 <option>Pilih Kategori</option>
-            </select>
+            </select> --}}
 
-            <input type="text" class="form-control w-25" placeholder="Cari produk...">
+            <input type="search" class="form-control w-25" placeholder="Cari produk...">
         </div>
 
         {{-- Produk List --}}

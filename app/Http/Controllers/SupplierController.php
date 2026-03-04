@@ -105,4 +105,16 @@ class SupplierController extends Controller
             ->route('supplier.index', $id_toko)
             ->with('success', 'Supplier berhasil diupdate');
     }
+    public function destroy($id_toko, $id_supplier)
+    {
+        $supplier = Supplier::where('id_toko', $id_toko)
+                            ->where('id_supplier', $id_supplier)
+                            ->firstOrFail();
+
+        $supplier->delete();
+
+        return redirect()
+            ->route('supplier.index', $id_toko)
+            ->with('success', 'Supplier berhasil dihapus');
+    }
 }
