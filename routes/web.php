@@ -9,6 +9,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CustomerController;
 
 
 
@@ -141,4 +142,11 @@ Route::get('/produk/{id_produk}/stok/kembali',
 Route::post('/produk/{id_produk}/stok/kembali/store',
     [StokController::class, 'storeKembali']
 )->name('stok.kembali.store');
+//Member
+Route::get('/toko/{id_toko}/customer', [CustomerController::class, 'index'])->name('customer.index');
+Route::get('/toko/{id_toko}/customer/create',[CustomerController::class,'create'])->name('customer.create');
 
+Route::post('/toko/{id_toko}/customer',[CustomerController::class,'store'])->name('customer.store');
+Route::get('/customer/{id_customer}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
+Route::put('/customer/{id_customer}', [CustomerController::class, 'update'])->name('customer.update');
+Route::delete('/customer/{id_customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
