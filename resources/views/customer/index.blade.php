@@ -37,14 +37,12 @@
                                     <td>
                                         <div class="fw-bold">{{ $item->nama_customer }}</div>
 
-                                        <div class="text-muted">
+                                        {{-- <div class="text-muted">
                                             {{ $item->no_hp }}
-                                        </div>
+                                        </div> --}}
 
                                         <div class="mt-1">
-                                            <span class="badge bg-success">
-                                                {{ number_format($item->point) }} Point
-                                            </span>
+                                            {{ number_format($item->point) }} Point
                                         </div>
 
                                         <div class="text-muted">
@@ -54,28 +52,33 @@
 
                                     <td class="text-end">
 
-                                        <a href="https://wa.me/{{ $item->no_hp }}" target="_blank"
-                                            class="btn btn-success btn-sm">
-                                            WA
-                                        </a>
+                                        <div class="d-flex gap-1 justify-content-end">
 
-                                        <a href="{{ route('customer.edit', [$id_toko, $item->id_customer]) }}"
-                                            class="btn btn-warning btn-sm">
-                                            Edit
-                                        </a>
+                                            <a href="https://wa.me/{{ $item->no_hp }}" target="_blank"
+                                                class="btn btn-success btn-sm">
+                                                <i class="bi bi-whatsapp"></i>
+                                            </a>
 
-                                        <form action="{{ route('customer.destroy', [$id_toko, $item->id_customer]) }}"
-                                            method="POST" class="d-inline"
-                                            onsubmit="return confirm('Yakin hapus customer ini?')">
+                                            <a href="{{ route('customer.edit', [$toko->id_toko, $item->id_customer]) }}"
+                                                class="btn btn-warning btn-sm">
+                                              <i class="bi bi-pencil-square"></i>
+                                            </a>
 
-                                            @csrf
-                                            @method('DELETE')
+                                            <form
+                                                action="{{ route('customer.destroy', [$toko->id_toko, $item->id_customer]) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Yakin ingin menghapus customer ini?')">
 
-                                            <button class="btn btn-danger btn-sm">
-                                                Hapus
-                                            </button>
+                                                @csrf
+                                                @method('DELETE')
 
-                                        </form>
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+
+                                            </form>
+
+                                        </div>
 
                                     </td>
 

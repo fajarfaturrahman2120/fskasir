@@ -147,6 +147,7 @@ Route::get('/toko/{id_toko}/customer', [CustomerController::class, 'index'])->na
 Route::get('/toko/{id_toko}/customer/create',[CustomerController::class,'create'])->name('customer.create');
 
 Route::post('/toko/{id_toko}/customer',[CustomerController::class,'store'])->name('customer.store');
-Route::get('/customer/{id_customer}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
-Route::put('/customer/{id_customer}', [CustomerController::class, 'update'])->name('customer.update');
-Route::delete('/customer/{id_customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+Route::get('/toko/{id_toko}/customer/{id_customer}/edit',[CustomerController::class, 'edit'])->name('customer.edit');
+
+Route::put('/toko/{id_toko}/customer/{id_customer}',[CustomerController::class, 'update'])->name('customer.update');
+Route::delete('/toko/{id_toko}/customer/{id_customer}',[CustomerController::class,'destroy'])->name('customer.destroy');
