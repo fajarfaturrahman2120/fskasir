@@ -10,6 +10,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\KasirController;
 
 
 
@@ -151,3 +152,11 @@ Route::get('/toko/{id_toko}/customer/{id_customer}/edit',[CustomerController::cl
 
 Route::put('/toko/{id_toko}/customer/{id_customer}',[CustomerController::class, 'update'])->name('customer.update');
 Route::delete('/toko/{id_toko}/customer/{id_customer}',[CustomerController::class,'destroy'])->name('customer.destroy');
+//kasir
+Route::get('/toko/{id_toko}/kasir', [KasirController::class, 'index'])->name('kasir.index');
+Route::get('/toko/{id_toko}/kasir/create', [KasirController::class, 'create'])->name('kasir.create');
+Route::post('/toko/{id_toko}/kasir', [KasirController::class, 'store'])->name('kasir.store');
+Route::get('/toko/{id_toko}/kasir/{id_kasir}/edit', [KasirController::class, 'edit'])->name('kasir.edit');
+Route::put('/toko/{id_toko}/kasir/{id_kasir}', [KasirController::class, 'update'])->name('kasir.update');;
+Route::delete('/toko/{id_toko}/kasir/{id_kasir}',[KasirController::class, 'destroy'])->name('kasir.destroy');
+
