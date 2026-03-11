@@ -11,6 +11,7 @@ use App\Http\Controllers\StokController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\KasirController;
+use App\Http\Controllers\KasbonController;
 
 
 
@@ -159,4 +160,5 @@ Route::post('/toko/{id_toko}/kasir', [KasirController::class, 'store'])->name('k
 Route::get('/toko/{id_toko}/kasir/{id_kasir}/edit', [KasirController::class, 'edit'])->name('kasir.edit');
 Route::put('/toko/{id_toko}/kasir/{id_kasir}', [KasirController::class, 'update'])->name('kasir.update');;
 Route::delete('/toko/{id_toko}/kasir/{id_kasir}',[KasirController::class, 'destroy'])->name('kasir.destroy');
-
+//kasbon
+Route::get('/toko/{id_toko}/kasbon', [KasbonController::class, 'index'])->name('kasbon.index');

@@ -33,7 +33,7 @@
             @endif
 
             <form method="POST" action="{{ route('login.proses') }}">
-                @csrf=
+                @csrf
 
                 <div class="mb-3">
                     <label class="form-label">Email</label>
