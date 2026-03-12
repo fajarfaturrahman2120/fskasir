@@ -67,9 +67,7 @@
                             </div>
 
                             <h5 class="fw-bold text-dark mb-1">Toko {{ $item->name }}</h5>
-                            <p class="text-muted small mb-4">
-                                {{-- <i class="bi bi-geo-alt me-1"></i> Cabang: {{ $item->name }} --}}
-                            </p>
+
 
                             <div class="d-grid">
                                 <a href="{{ route('menu.index', $item->id_toko) }}"
