@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function Proseslogin(Request $request)
     {
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('dashboard');
+            return redirect()->route('toko.index');
         }
 
         return back()->with('error', 'email atau Password salah');

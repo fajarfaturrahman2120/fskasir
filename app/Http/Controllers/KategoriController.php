@@ -49,27 +49,30 @@ class KategoriController extends Controller
     ])->with('success', 'Data berhasil ditambahkan');
 }
 
-    public function edit($id)
-    {
-        $kategori = Kategori::findOrFail($id);
-        return view('kategori.edit', compact('kategori'));
-    }
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'kategori' => 'required',
-            'jenis_transaksi' => 'required',
-        ]);
+public function edit($id_toko, $id_kategori)
+{
+    $toko = Toko::findOrFail($id_toko);
+    $kategori = Kategori::findOrFail($id_kategori);
 
-        $kategori = Kategori::findOrFail($id);
-        $kategori->update([
-            'kategori' => $request->kategori,
-            'jenis_transaksi' => $request->jenis_transaksi,
-        ]);
+    return view('kategori.edit', compact('toko', 'kategori'));
+}
+   public function update(Request $request, $id_toko, $id_kategori)
+{
+    $request->validate([
+        'kategori' => 'required',
+        'jenis_transaksi' => 'required',
+    ]);
 
-        return redirect()->route('kategori.index')
-            ->with('success', 'Data berhasil diupdate');
-    }
+    $kategori = Kategori::findOrFail($id_kategori);
+
+    $kategori->update([
+        'kategori' => $request->kategori,
+        'jenis_transaksi' => $request->jenis_transaksi,
+    ]);
+
+    return redirect()->route('kategori.index', $id_toko)
+        ->with('success', 'Data berhasil diupdate');
+}
     public function show($id_toko, $id_kategori)
     {
         // Ambil data toko untuk navigasi/sidebar

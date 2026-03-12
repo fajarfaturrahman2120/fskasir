@@ -26,11 +26,7 @@
             </a>
         </div>
 
-        {{-- Filter --}}
-        {{-- <div class="d-flex justify-content-between mb-3">
-            <select class="form-select w-25">
-                <option>Pilih Kategori</option>
-            </select> --}}
+
 
             <input type="search" class="form-control w-25" placeholder="Cari produk...">
         </div>

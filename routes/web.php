@@ -28,7 +28,7 @@ Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware('auth
 
 Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
 //menu Kasir
-Route::get('/menu/{id_toko}', [MenuController::class, 'index'])->name('menu.index');
+Route::get('toko/menu/{id_toko}', [MenuController::class, 'index'])->name('menu.index');
 Route::get('/toko',[TokoController::class, 'index'])->name('toko.index');
 Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
 Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
@@ -40,110 +40,43 @@ Route::delete('/toko/{id_toko}', [TokoController::class, 'destroy'])->name('toko
 Route::get('/toko/{id_toko}/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/toko/{id_toko}/produk/create', [ProdukController::class, 'create'])->name('produk.create');
 Route::post('/produk/{id_toko}', [ProdukController::class, 'store'])->name('produk.store');
-Route::get('/toko/{id_toko}/produk/{id_produk}',
-    [ProdukController::class, 'show']
-)->name('produk.show');
-
+Route::get('/toko/{id_toko}/produk/{id_produk}',[ProdukController::class, 'show'])->name('produk.show');
 Route::get('/produk/{id_produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
 Route::put('/produk/{id_produk}', [ProdukController::class, 'update'])->name('produk.update');
 Route::delete('/produk/{id_produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
 Route::prefix('toko/{id_toko}')->group(function () {
-
-    Route::get('/kategori', [KategoriController::class, 'index'])
-        ->name('kategori.index');
-
-    Route::get('/kategori/create', [KategoriController::class, 'create'])
-        ->name('kategori.create');
-
-    Route::post('/kategori', [KategoriController::class, 'store'])
-        ->name('kategori.store');
-
-    Route::get('/kategori/{id_kategori}/edit', [KategoriController::class, 'edit'])
-        ->name('kategori.edit');
-
-    Route::put('/kategori/{id_kategori}', [KategoriController::class, 'update'])
-        ->name('kategori.update');
-
-    Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])
-        ->name('kategori.destroy');
-
-
+Route::get('/kategori', [KategoriController::class, 'index']) ->name('kategori.index');
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+Route::get('/kategori/{id_kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+Route::put('/kategori/{id_kategori}',[KategoriController::class, 'update'])->name('kategori.update');
+Route::delete('/kategori/{id_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 });
 
 
 
 //supplier
-
-
 // INDEX
-Route::get('/toko/supplier/{id_toko}',
-    [SupplierController::class, 'index']
-)->name('supplier.index');
-
+Route::get('/toko/supplier/{id_toko}', [SupplierController::class, 'index'])->name('supplier.index');
 // CREATE (Form)
-Route::get('/toko/supplier/{id_toko}/create',
-    [SupplierController::class, 'create']
-)->name('supplier.create');
-
+Route::get('/toko/supplier/{id_toko}/create',[SupplierController::class, 'create'])->name('supplier.create');
 // STORE (Simpan)
-Route::post('/toko/supplier/{id_toko}',
-    [SupplierController::class, 'store']
-)->name('supplier.store');
-
+Route::post('/toko/supplier/{id_toko}',[SupplierController::class, 'store'])->name('supplier.store');
 // EDIT (Form Edit)
-Route::get('/toko/supplier/{id_toko}/{id_supplier}/edit',
-    [SupplierController::class, 'edit']
-)->name('supplier.edit');
-
+Route::get('/toko/supplier/{id_toko}/{id_supplier}/edit',[SupplierController::class, 'edit'])->name('supplier.edit');
 // UPDATE (Update Data)
-Route::put('/toko/supplier/{id_toko}/{id_supplier}',
-    [SupplierController::class, 'update']
+Route::put('/toko/supplier/{id_toko}/{id_supplier}',[SupplierController::class, 'update']
 )->name('supplier.update');
-Route::delete('/toko/{id_toko}/supplier/{id_supplier}',
-    [SupplierController::class, 'destroy']
-)->name('supplier.destroy');
+Route::delete('/toko/{id_toko}/supplier/{id_supplier}',[SupplierController::class, 'destroy'])->name('supplier.destroy');
 //stok
-// ==============================
-// RIWAYAT STOK
-// ==============================
-Route::get('/produk/{id_produk}/stok', [StokController::class, 'index'])
-    ->name('stok.index');
-
-// ==================
-// TAMBAH STOK
-// ==================
-Route::get('/produk/{id_produk}/stok/create',
-    [StokController::class, 'create']
-)->name('stok.create');
-
-Route::post('/produk/{id_produk}/stok/store',
-    [StokController::class, 'store']
-)->name('stok.store');
-
-
-// ==================
-// KURANG STOK
-// ==================
-Route::get('/produk/{id_produk}/stok/kurang',
-    [StokController::class, 'kurang']
-)->name('stok.kurang.form');
-
-Route::post('/produk/{id_produk}/stok/kurang/store',
-    [StokController::class, 'storeKurang']
-)->name('stok.kurang.store');
-
-
-// ==================
-// KEMBALI STOK
-// ==================
-Route::get('/produk/{id_produk}/stok/kembali',
-    [StokController::class, 'createKembali']
-)->name('stok.kembali.form');
-
-Route::post('/produk/{id_produk}/stok/kembali/store',
-    [StokController::class, 'storeKembali']
-)->name('stok.kembali.store');
+Route::get('/produk/{id_produk}/stok', [StokController::class, 'index'])->name('stok.index');
+Route::get('/produk/{id_produk}/stok/create', [StokController::class, 'create'])->name('stok.create');
+Route::post('/produk/{id_produk}/stok/store', [StokController::class, 'store'])->name('stok.store');
+Route::get('/produk/{id_produk}/stok/kurang', [StokController::class, 'kurang'])->name('stok.kurang.form');
+Route::post('/produk/{id_produk}/stok/kurang/store', [StokController::class, 'storeKurang'])->name('stok.kurang.store');
+Route::get('/produk/{id_produk}/stok/kembali', [StokController::class, 'createKembali'])->name('stok.kembali.form');
+Route::post('/produk/{id_produk}/stok/kembali/store', [StokController::class, 'storeKembali'])->name('stok.kembali.store');
 //Member
 Route::get('/toko/{id_toko}/customer', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('/toko/{id_toko}/customer/create',[CustomerController::class,'create'])->name('customer.create');

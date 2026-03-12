@@ -118,7 +118,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Update</button>
-        <a href="{{ route('produk.index') }}" class="btn btn-secondary mt-3">Cancel</a>
+        {{-- <a href="{{ route('produk.index',$id_toko) }}" class="btn btn-secondary mt-3">Cancel</a> --}}
 
     </form>
 </div>
